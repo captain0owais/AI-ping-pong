@@ -1,0 +1,15 @@
+body
+{
+background-size: cover;
+font-family: 'Hubballi', cursive;
+}
+
+#show_sketch{
+    float: right;
+    margin-top: 0px;
+    margin-right: 2.5px;
+    font-weight: bolder;
+    width: 130px;
+    font-size: larger;
+    height: 58px;
+}
