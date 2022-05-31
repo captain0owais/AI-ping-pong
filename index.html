@@ -21,15 +21,38 @@
     <body background="wallpaper.png">
         <center>
             <button class="btn btn-primary" id="show_sketch" data-toggle="modal" data-target="#myModal"> INSTRUCTIONS</button>
-            <h2 class="btn btn-info" style="width: 90%; margin-top:0px; font-size: x-large;">AI MARIO GAME</h2>
+            <h2 class="btn btn-info" style="width: 90%; margin-top:0px; font-size: x-large;">AI PING PONG</h2>
             <br>
             <br>
             <button class="btn btn-success btn-lg" id="start" onclick="startGame()"> PLAY GAME</button>
             <br>
+            <br>
+            <button class="btn btn-danger btn-lg" id="restart" onclick="restart()"> RESTART</button>
+            <br>
             <h3 class="btn btn-danger" id="status">|||||</h3>
             <br>
             <div id="container"></div>
+
+
         </center>
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal">&times;</button>
+                  <h4>INSTRUCTIONS</h4>
+                </div>
+                <div class="modal-body">
+                    <ol>
+                        <li>CLICK ON PLAY BUTTON</li>
+                        <BR>
+                        <li>MOVE 3~4 METERS FROM THE DEVICE</li>
+                        <LI>USE YOUR HAND TO CONTROL THE PADDEL</LI>
+                    </ol>
+                </div>
+              </div>
+            </div>
+          </div>
         <script src="main.js"></script>
     </body>
 </html>
