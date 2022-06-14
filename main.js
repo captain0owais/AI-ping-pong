@@ -1,7 +1,36 @@
 
 /*created by prashant shukla */
 
+function preload(){
+  ball_touched_paddle = ball_touch_paddel.wav;
+  ball_missed_paddle = missed.wav;
+}
+
 var paddle2 =10,paddle1=10;
+
+rightX = 0;
+rightY = 0;
+rightwristscore = 0;
+STATUS = "";
+
+
+function startGame(){
+  STATUS = "start";
+console.log("START GAME");
+poseNet.on('pose' , gotResults);
+}
+
+function gotResults(results){
+  if(results.length > 0){
+    rightX = results[0].pose.rightWrist.x;
+    rightY = results[0].pose.rightWrist.y;
+    rightwristscore = results[0].pose.rightWrist.score;
+  }
+}
+
+function restart(){
+  console.log("RESTART");
+}
 
 var paddle1X = 10,paddle1Height = 110;
 var paddle2Y = 685,paddle2Height = 70;
@@ -29,7 +58,7 @@ function setup(){
   video = createCapture(VIDEO);
   video.size(700 , 600);
 
-  posenet = ml5.poseNet(video , modelLoaded);
+  poseNet = ml5.poseNet(video , modelLoaded);
 }
 
 function modelLoaded(){
@@ -38,7 +67,7 @@ function modelLoaded(){
 
 
 function draw(){
-
+  if(STATUS == "start")
   image(video , 0 , 0 , 700 , 600);
 
  background(0); 
@@ -51,6 +80,12 @@ function draw(){
  stroke("black");
  rect(0,0,20,700);
  
+  if(rightwristscore > 0.2){
+    fill("red");
+    stroke("red");
+    circle(rightX , rightY , 10);
+  }
+
    //funtion paddleInCanvas call 
    paddleInCanvas();
  
@@ -58,7 +93,7 @@ function draw(){
    fill(250,0,0);
     stroke(0,0,250);
     strokeWeight(0.5);
-   paddle1Y = mouseY; 
+   paddle1Y = rightY; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
@@ -84,10 +119,13 @@ function draw(){
 
 //function reset when ball does notcame in the contact of padde
 function reset(){
+  pcscore = 0;
+  playerscore = 0;
    ball.x = width/2+100,
    ball.y = height/2+100;
    ball.dx=3;
    ball.dy =3;
+   loop();
    
 }
 
@@ -129,9 +167,11 @@ function move(){
    }
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
+    ball_touched_paddle.play();
     ball.dx = -ball.dx+0.5; 
   }
   else{
+    ball_missed_paddle.play();
     pcscore++;
     reset();
     navigator.vibrate(100);
@@ -145,7 +185,7 @@ if(pcscore ==4){
     stroke("white");
     textSize(25)
     text("Game Over!",width/2,height/2);
-    text("Reload The Page!",width/2,height/2+30)
+    text("Press Restart Button To Play Again!",width/2,height/2+30)
     noLoop();
     pcscore = 0;
 }
